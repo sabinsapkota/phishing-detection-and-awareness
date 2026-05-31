@@ -1,13 +1,4 @@
-"""
-Full Email Parser + Feature Extractor (Production-Grade Upgrade)
 
-Fixes:
-- False positives on .edu.au / institutional emails
-- Over-aggressive urgency detection
-- ESP (Mailchimp, SES, SendGrid) false mismatch issues
-- Missing institutional context detection
-- Weak phishing intent separation
-"""
 
 import email
 from email import policy
