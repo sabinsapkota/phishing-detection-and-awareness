@@ -1,6 +1,6 @@
 # PhishGuard - Phishing Detection & Awareness Tool
 
-## ICT942 Cybersecurity Project
+## ICT946 Cybersecurity Project
 **Master of Information Technology (MIT)**  
 Semester S1 2026
 
@@ -224,4 +224,4 @@ For questions or issues, please contact the project team.
 
 ---
 
-**Developed for ICT942 - Cybersecurity Project**
+**Developed for ICT946 - Cybersecurity Project**
