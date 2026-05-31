@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+
+{% block title %}Detection Result - PhishGuard{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+
+        <!-- Main Result Alert -->
+        {% if result.is_phishing %}
+        <div class="phishing-alert fade-in">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-exclamation-triangle fa-3x text-danger me-4"></i>
+                <div>
+                    <h3 class="text-danger mb-2">🚨 PHISHING DETECTED</h3>
+                    <p class="mb-0">This email shows <strong>{{ result.risk_level }}</strong> risk according to the trained model.</p>
+                    <p class="mb-0 mt-2"><strong>Confidence: {{ result.confidence }}%</strong></p>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="safe-alert fade-in">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-check-circle fa-3x text-success me-4"></i>
+                <div>
+                    <h3 class="text-success mb-2">✅ APPEARS LEGITIMATE</h3>
+                    <p class="mb-0">No strong phishing signals detected by the machine learning model.</p>
+                    <p class="mb-0 mt-2"><strong>Confidence: {{ result.confidence }}%</strong></p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Risk Meter -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-tachometer-alt me-2"></i>Risk Assessment (ML Model)</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <div class="detection-meter mb-3">
+                            <div class="meter-circle">
+                                <div class="meter-inner">
+                                    <span class="meter-value {{ 'text-danger' if result.is_phishing else 'text-success' }}">
+                                        {{ result.confidence }}%
+                                    </span>
+                                    <small class="text-muted">Phishing Probability</small>
+                                </div>
+                            </div>
+                        </div>
+                        <h5>Risk Level: 
+                            <span class="badge {{ 'bg-danger' if result.confidence > 80 else 'bg-warning' if result.confidence > 50 else 'bg-success' }}">
+                                {{ result.risk_level }}
+                            </span>
+                        </h5>
+                    </div>
+
+                    <div class="col-md-8">
+                        <h6><i class="fas fa-list-check me-2"></i>Model Reasoning</h6>
+                        <div class="mt-3">
+                            {% for reason in result.reasoning %}
+                            <div class="alert {{ 'alert-danger' if result.is_phishing else 'alert-info' }} py-2 mb-2">
+                                <i class="fas {{ 'fa-times-circle' if result.is_phishing else 'fa-info-circle' }} me-2"></i>
+                                {{ reason }}
+                            </div>
+                            {% else %}
+                            <div class="alert alert-secondary py-2">
+                                No specific indicators triggered — model made decision based on overall pattern.
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Email Analysis -->
+        <div class="card mt-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-envelope-open-text me-2"></i>Email Analysis</h5>
+                <span class="badge bg-primary">{{ email.input_type|title }} Input</span>
+            </div>
+            <div class="card-body">
+                {% if email.parsed and email.parsed.from %}
+                    <table class="table table-sm table-borderless">
+                        <tr><td class="text-muted" width="100">From:</td><td><code>{{ email.parsed.from }}</code></td></tr>
+                        <tr><td class="text-muted">Subject:</td><td><strong>{{ email.parsed.subject }}</strong></td></tr>
+                        {% if email.parsed.date %}<tr><td class="text-muted">Date:</td><td>{{ email.parsed.date }}</td></tr>{% endif %}
+                    </table>
+                    <hr>
+                    <h6>Body:</h6>
+                    <pre class="bg-light p-3 rounded" style="white-space: pre-wrap; max-height: 320px; overflow-y: auto;">
+{{ email.parsed.body_plain[:1500] if email.parsed.body_plain else email.parsed.body_html[:1500] | default('No body content') }}
+                    </pre>
+                {% else %}
+                    <p><strong>From:</strong> <code>{{ email.sender|default('N/A') }}</code></p>
+                    <p><strong>Subject:</strong> {{ email.subject|default('N/A') }}</p>
+                    <pre style="white-space: pre-wrap;">{{ email.content|default('No content') }}</pre>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- ML Features -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-microscope me-2"></i>ML Feature Breakdown</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-primary"><i class="fas fa-link me-2"></i>URL Features</h6>
+                        <table class="table table-sm">
+                            <tr>
+                                <td>URLs Found:</td>
+                                <td><span class="badge bg-info">{{ result.features.num_urls|default(0) }}</span></td>
+                            </tr>
+                            <tr>
+                                <td>Suspicious TLD Count:</td>
+                                <td><span class="badge {{ 'bg-danger' if (result.features.suspicious_tld_count|default(0)) > 0 else 'bg-success' }}">
+                                    {{ result.features.suspicious_tld_count|default(0) }}
+                                </span></td>
+                            </tr>
+                            <tr>
+                                <td>Contains IP Address:</td>
+                                <td><span class="badge {{ 'bg-danger' if result.features.has_ip_in_url else 'bg-success' }}">
+                                    {{ 'Yes' if result.features.has_ip_in_url else 'No' }}
+                                </span></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-primary"><i class="fas fa-file-alt me-2"></i>Text & Style Features</h6>
+                        <table class="table table-sm">
+                            <tr>
+                                <td>Urgent Words:</td>
+                                <td><span class="badge bg-warning">{{ result.features.urgent_words_count|default(0) }}</span></td>
+                            </tr>
+                            <tr>
+                                <td>Exclamation Marks:</td>
+                                <td><span class="badge bg-info">{{ result.features.exclamation_count|default(0) }}</span></td>
+                            </tr>
+                            <tr>
+                                <td>Capital Ratio:</td>
+                                <td><span class="badge bg-info">{{ (result.features.capital_ratio|default(0) * 100)|round(1) }}%</span></td>
+                            </tr>
+                            <tr>
+                                <td>Has HTML:</td>
+                                <td><span class="badge {{ 'bg-warning' if result.features.has_html else 'bg-success' }}">
+                                    {{ 'Yes' if result.features.has_html else 'No' }}
+                                </span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detected URLs -->
+        {% if result.urls_found and result.urls_found|length > 0 %}
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-globe me-2"></i>Detected URLs ({{ result.urls_found|length }})</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group">
+                    {% for url in result.urls_found[:10] %}
+                    <li class="list-group-item">
+                        <code class="small">{{ url }}</code>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Action Buttons -->
+        <div class="text-center mt-5">
+            <a href="{{ url_for('detect') }}" class="btn btn-primary btn-lg">
+                <i class="fas fa-redo me-2"></i>Analyze Another Email
+            </a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

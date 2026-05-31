@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics - PhishGuard{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-chart-line me-2"></i>Analytics Dashboard</h2>
+    <button class="btn btn-outline-primary" onclick="window.print()">
+        <i class="fas fa-print me-2"></i>Print Report
+    </button>
+</div>
+
+<div class="row">
+    <div class="col-md-3 mb-4">
+        <div class="card bg-primary text-white">
+            <div class="card-body text-center">
+                <i class="fas fa-envelope fa-2x mb-2"></i>
+                <h3>{{ stats.total_emails }}</h3>
+                <p class="mb-0">Emails Analyzed</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card bg-danger text-white">
+            <div class="card-body text-center">
+                <i class="fas fa-bug fa-2x mb-2"></i>
+                <h3>{{ stats.phishing_detected }}</h3>
+                <p class="mb-0">Threats Detected</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card bg-warning text-dark">
+            <div class="card-body text-center">
+                <i class="fas fa-mouse-pointer fa-2x mb-2"></i>
+                <h3>{{ stats.click_rate }}%</h3>
+                <p class="mb-0">Click Rate</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card bg-success text-white">
+            <div class="card-body text-center">
+                <i class="fas fa-flag fa-2x mb-2"></i>
+                <h3>{{ stats.report_rate }}%</h3>
+                <p class="mb-0">Report Rate</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-shield-alt me-2"></i>Detection Performance</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="detectionChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-users me-2"></i>User Awareness Metrics</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="awarenessChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="fas fa-clipboard-list me-2"></i>Detailed Statistics</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table table-borderless">
+                    <tr>
+                        <td>Detection Rate:</td>
+                        <td><strong>{{ stats.detection_rate }}%</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Total Campaigns:</td>
+                        <td><strong>{{ stats.total_campaigns }}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Active Campaigns:</td>
+                        <td><strong>{{ stats.active_campaigns }}</strong></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <table class="table table-borderless">
+                    <tr>
+                        <td>Click Rate:</td>
+                        <td><strong class="{{ 'text-danger' if stats.click_rate > 30 else 'text-warning' }}">{{ stats.click_rate }}%</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Report Rate:</td>
+                        <td><strong class="{{ 'text-success' if stats.report_rate > 50 else 'text-warning' }}">{{ stats.report_rate }}%</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Improvement Score:</td>
+                        <td><strong>{{ stats.improvement_score }}/100</strong></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="alert {{ 'alert-success' if stats.improvement_score > 70 else 'alert-warning' }} mt-3">
+            <i class="fas fa-info-circle me-2"></i>
+            {% if stats.improvement_score > 70 %}
+                <strong>Excellent!</strong> Your organization shows strong phishing awareness. Keep up the good work!
+            {% elif stats.improvement_score > 50 %}
+                <strong>Good progress.</strong> Awareness is improving but additional training may be beneficial.
+            {% else %}
+                <strong>Attention needed.</strong> Consider increasing training frequency and reviewing security policies.
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Detection Performance Chart
+    const detectionCtx = document.getElementById('detectionChart').getContext('2d');
+    new Chart(detectionCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Phishing Detected', 'Legitimate Emails'],
+            datasets: [{
+                data: [{{ stats.phishing_detected }}, {{ stats.total_emails - stats.phishing_detected }}],
+                backgroundColor: ['#dc2626', '#059669'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
+    // Awareness Metrics Chart
+    const awarenessCtx = document.getElementById('awarenessChart').getContext('2d');
+    new Chart(awarenessCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Clicked Link', 'Reported Phishing', 'Ignored Email'],
+            datasets: [{
+                label: 'User Actions (%)',
+                data: [{{ stats.click_rate }}, {{ stats.report_rate }}, {{ 100 - stats.click_rate - stats.report_rate }}],
+                backgroundColor: ['#dc2626', '#059669', '#6b7280'],
+                borderRadius: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

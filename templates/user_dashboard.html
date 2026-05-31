@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block title %}User Dashboard - PhishGuard{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="fas fa-user me-2"></i>My Dashboard</h4>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                <i class="fas fa-envelope fa-2x"></i>
+                            </div>
+                            <div class="ms-3">
+                                <h5 class="mb-0">{{ simulations|length }}</h5>
+                                <small class="text-muted">Training Simulations</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                <i class="fas fa-graduation-cap fa-2x"></i>
+                            </div>
+                            <div class="ms-3">
+                                <h5 class="mb-0">{{ training_completed }}</h5>
+                                <small class="text-muted">Completed Training</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h5 class="mb-3"><i class="fas fa-inbox me-2"></i>My Simulation Emails</h5>
+                {% if simulations %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Campaign</th>
+                                <th>Status</th>
+                                <th>Opened</th>
+                                <th>Clicked</th>
+                                <th>Reported</th>
+                                <th>Training</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for sim in simulations %}
+                            <tr>
+                                <td>#{{ sim.campaign_id }}</td>
+                                <td>
+                                    {% if sim.reported_phishing %}
+                                        <span class="badge bg-success">Reported</span>
+                                    {% elif sim.link_clicked %}
+                                        <span class="badge bg-danger">Clicked</span>
+                                    {% elif sim.email_opened %}
+                                        <span class="badge bg-warning">Opened</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Sent</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if sim.email_opened %}
+                                        <i class="fas fa-check text-success"></i>
+                                    {% else %}
+                                        <i class="fas fa-times text-muted"></i>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if sim.link_clicked %}
+                                        <i class="fas fa-check text-danger"></i>
+                                    {% else %}
+                                        <i class="fas fa-times text-muted"></i>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if sim.reported_phishing %}
+                                        <i class="fas fa-check text-success"></i>
+                                    {% else %}
+                                        <i class="fas fa-times text-muted"></i>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if sim.training_completed %}
+                                        <span class="badge bg-success">Done</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Pending</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if not sim.email_opened %}
+                                    <a href="{{ url_for('view_simulation_email', result_id=sim.id) }}" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-envelope-open"></i> Open
+                                    </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>No simulation emails assigned yet. Check back later!
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="fas fa-graduation-cap me-2"></i>Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('detect') }}" class="btn btn-primary">
+                        <i class="fas fa-search me-2"></i>Analyze Email
+                    </a>
+                    <a href="{{ url_for('training') }}" class="btn btn-info text-white">
+                        <i class="fas fa-book me-2"></i>Training Materials
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0"><i class="fas fa-trophy me-2"></i>Your Progress</h5>
+            </div>
+            <div class="card-body">
+                {% set total = simulations|length %}
+                {% set reported = simulations|selectattr('reported_phishing', 'equalto', true)|list|length %}
+                {% set trained = simulations|selectattr('training_completed', 'equalto', true)|list|length %}
+
+                <div class="mb-3">
+                    <label class="form-label d-flex justify-content-between">
+                        <span>Reporting Rate</span>
+                        <span>{{ (reported/total*100)|round if total > 0 else 0 }}%</span>
+                    </label>
+                    <div class="progress">
+                        <div class="progress-bar bg-success" style="width: {{ (reported/total*100)|round if total > 0 else 0 }}%"></div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label d-flex justify-content-between">
+                        <span>Training Completion</span>
+                        <span>{{ (trained/total*100)|round if total > 0 else 0 }}%</span>
+                    </label>
+                    <div class="progress">
+                        <div class="progress-bar bg-info" style="width: {{ (trained/total*100)|round if total > 0 else 0 }}%"></div>
+                    </div>
+                </div>
+
+                <div class="alert alert-light mt-3">
+                    <small><i class="fas fa-lightbulb text-warning me-2"></i>Tip: Always report suspicious emails to improve your security score!</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

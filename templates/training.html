@@ -1,0 +1,511 @@
+{% extends "base.html" %}
+
+{% block title %}Training - PhishGuard{% endblock %}
+
+{% block content %}
+<div class="text-center mb-5">
+    <h2><i class="fas fa-graduation-cap me-2"></i>Phishing Awareness Training</h2>
+    <p class="lead text-muted">Learn to identify and avoid phishing attacks</p>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0"><i class="fas fa-fish me-2"></i>What is Phishing?</h5>
+            </div>
+            <div class="card-body">
+                <p>Phishing is a cyber attack that uses disguised email as a weapon. The goal is to trick the email recipient into believing that the message is something they want or need.</p>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-check text-success me-2"></i>Fake login pages</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Malicious attachments</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Urgent requests</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Common Signs</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <i class="fas fa-envelope text-danger me-2"></i>
+                        <strong>Suspicious sender</strong>
+                        <small class="d-block text-muted">Check email addresses carefully</small>
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fas fa-link text-danger me-2"></i>
+                        <strong>Odd links</strong>
+                        <small class="d-block text-muted">Hover to preview URLs</small>
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fas fa-spell-check text-danger me-2"></i>
+                        <strong>Poor spelling</strong>
+                        <small class="d-block text-muted">Grammar mistakes</small>
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fas fa-clock text-danger me-2"></i>
+                        <strong>Urgency</strong>
+                        <small class="d-block text-muted">"Act now!" pressure</small>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="fas fa-shield-alt me-2"></i>Best Practices</h5>
+            </div>
+            <div class="card-body">
+                <ol class="list-group list-group-numbered list-group-flush">
+                    <li class="list-group-item">Verify sender identity</li>
+                    <li class="list-group-item">Don't click suspicious links</li>
+                    <li class="list-group-item">Check for HTTPS on websites</li>
+                    <li class="list-group-item">Use multi-factor authentication</li>
+                    <li class="list-group-item">Report suspicious emails</li>
+                    <li class="list-group-item">Keep software updated</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0"><i class="fas fa-tv me-2"></i>Interactive Examples</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <h6 class="text-danger"><i class="fas fa-times-circle me-2"></i>Suspicious Email Example:</h6>
+                <div class="email-preview bg-light p-3 rounded border">
+                    <p class="mb-1"><strong>From:</strong> security@amaz0n-security.com</p>
+                    <p class="mb-1"><strong>Subject:</strong> Urgent: Account Suspension Warning!</p>
+                    <hr>
+                    <p>Dear Customer,</p>
+                    <p>Your account has been compromised! Click here immediately to verify your information or your account will be PERMANENTLY DELETED!!!</p>
+                    <p><a href="#" class="btn btn-sm btn-danger">Verify Now</a></p>
+                </div>
+                <div class="alert alert-danger mt-2">
+                    <small><i class="fas fa-times me-1"></i> Misspelled domain (amaz0n), urgency, threats</small>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h6 class="text-success"><i class="fas fa-check-circle me-2"></i>Legitimate Email Example:</h6>
+                <div class="email-preview bg-light p-3 rounded border">
+                    <p class="mb-1"><strong>From:</strong> noreply@amazon.com</p>
+                    <p class="mb-1"><strong>Subject:</strong> Your Amazon order #123-4567890</p>
+                    <hr>
+                    <p>Hello John,</p>
+                    <p>Thank you for your order. Your package will arrive on Tuesday. Track your shipment here.</p>
+                    <p><a href="#" class="btn btn-sm btn-primary">Track Order</a></p>
+                </div>
+                <div class="alert alert-success mt-2">
+                    <small><i class="fas fa-check me-1"></i> Correct domain, specific details, no urgency</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- TRAINING VIDEO -->
+<div class="card mt-4 shadow-sm">
+    <div class="card-header bg-purple text-white">
+        <h5 class="mb-0"><i class="fas fa-video me-2"></i>Training Video</h5>
+    </div>
+    <div class="card-body">
+        <p class="text-muted">Click play to watch the phishing awareness training video. After watching, use the button below to start the quiz.</p>
+        <div class="video-wrap">
+           <video id="trainingVideo" controls class="w-100" poster="{{ url_for('static', filename='images/video_thumb.jpg') }}">
+    <source src="{{ url_for('static', filename='videos/phishing awareness.mp4') }}" type="video/mp4">
+    <p class="text-white p-3">
+        Your browser cannot play this video. 
+        <a href="{{ url_for('static', filename='videos/phishing awareness.mp4') }}" class="text-info">Download it here</a>.
+    </p>
+</video>
+        </div>
+        <div class="mt-3">
+            <button class="btn btn-primary btn-lg" id="startQuizBtn">
+                <i class="fas fa-play-circle me-2"></i>Take Quiz
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- 20-QUESTION QUIZ WITH PORTAL SCORING -->
+<div class="card mt-4 shadow-sm d-none" id="quizSectionWrap">
+    <div class="card-header bg-purple text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0"><i class="fas fa-question-circle me-2"></i>Phishing Awareness Quiz</h5>
+        <span class="badge bg-light text-dark fs-6" id="scoreBadge">Score: 0/20</span>
+    </div>
+    <div class="card-body">
+        <p class="text-muted">Select one answer for each question. After you answer, the question locks, feedback appears, and you can move to the next question. Staff must score at least <strong>17 out of 20</strong> to receive the completion certificate.</p>
+
+        <div id="quizSection">
+            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                <span class="badge bg-secondary fs-6" id="questionCounter">Question 1 of 20</span>
+                <span class="badge bg-success fs-6" id="scoreCounter">Score: 0</span>
+            </div>
+
+            <div class="progress mb-4" style="height: 12px;">
+                <div id="progressBar" class="progress-bar progress-bar-striped bg-purple" role="progressbar" style="width: 0%"></div>
+            </div>
+
+            <div class="card border-purple bg-light-purple">
+                <div class="card-body">
+                    <div class="text-purple fw-bold mb-2" id="questionNumber">Question 1</div>
+                    <h5 class="card-title mb-4" id="questionText"></h5>
+                    <div id="answersContainer" class="d-grid gap-2"></div>
+                    <div id="feedbackBox" class="alert mt-3 d-none"></div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+                <button class="btn btn-outline-secondary" id="prevBtn" disabled>
+                    <i class="fas fa-arrow-left me-2"></i>Previous
+                </button>
+                <button class="btn btn-primary" id="nextBtn" disabled>
+                    Next<i class="fas fa-arrow-right ms-2"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="resultSection" class="d-none text-center py-4">
+            <h3 class="text-purple mb-3"><i class="fas fa-clipboard-check me-2"></i>Quiz Complete</h3>
+            <p class="fw-bold fs-4" id="finalScoreText"></p>
+            <p class="fs-5" id="resultMessage"></p>
+
+            <div id="certificateBox" class="certificate-box d-none text-start">
+                <h4 class="text-center text-purple"><i class="fas fa-certificate me-2"></i>Completion Certificate</h4>
+                <p class="text-center text-muted">This certifies that the staff member has successfully completed the <strong>Phishing Awareness Quiz</strong>.</p>
+                <div class="row mt-3">
+                    <div class="col-md-6 offset-md-3">
+                        <p class="mb-1"><strong>Passing Score Achieved:</strong> <span id="certificateScore"></span></p>
+                        <p class="text-muted mb-0"><small>Required score: 17 out of 20</small></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button class="btn btn-primary btn-lg" id="restartBtn">
+                    <i class="fas fa-redo me-2"></i>Restart Quiz
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.video-wrap {
+    background: #160727;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 3px solid #d8b4fe;
+}
+.video-wrap video {
+    display: block;
+    width: 100%;
+    max-height: 580px;
+    background: #000;
+}
+
+/* Quiz option buttons */
+.quiz-option {
+    border: 2px solid #ddd6fe;
+    background: #fff;
+    color: #1f2937;
+    border-radius: 14px;
+    padding: 16px 18px;
+    padding-right: 52px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 1rem;
+    position: relative;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    width: 100%;
+}
+.quiz-option:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(124, 58, 237, 0.12);
+    border-color: #7c3aed;
+}
+.quiz-option:disabled {
+    cursor: not-allowed;
+    opacity: 1;
+}
+.quiz-option.correct {
+    background: #dcfce7;
+    border-color: #22c55e;
+    color: #166534;
+    font-weight: 700;
+}
+.quiz-option.incorrect {
+    background: #ffedd5;
+    border-color: #f97316;
+    color: #9a3412;
+    font-weight: 700;
+}
+.quiz-option.revealed-correct {
+    background: #dcfce7;
+    border-color: #22c55e;
+    color: #166534;
+    font-weight: 700;
+}
+
+/* Certificate styling */
+.certificate-box {
+    margin-top: 22px;
+    padding: 24px;
+    border: 3px solid #c084fc;
+    border-radius: 20px;
+    background: linear-gradient(180deg, #faf5ff, #ffffff);
+}
+.certificate-box h4 {
+    margin: 0 0 12px;
+    font-size: 1.45rem;
+}
+
+/* Purple theme utilities */
+.bg-purple {
+    background-color: #6d28d9 !important;
+}
+.text-purple {
+    color: #4b1d7a !important;
+}
+.border-purple {
+    border-color: #c084fc !important;
+}
+.bg-light-purple {
+    background-color: #faf5ff !important;
+}
+</style>
+
+<script>
+    const quizData = [
+        { question: "What is phishing?", options: ["A cyber attack that tricks users into revealing sensitive information", "A type of hardware upgrade", "A method for securing passwords", "A software backup process"], correct: 0 },
+        { question: "Which of the following is a common sign of a phishing email?", options: ["A message from a verified internal portal", "An email with urgent language asking for immediate action", "A routine newsletter from HR", "A calendar invite from your manager"], correct: 1 },
+        { question: "Why should you check the sender's email address carefully?", options: ["Because attackers often use slightly altered addresses", "Because longer email addresses are always fake", "Because internal email is always unsafe", "Because company emails never contain links"], correct: 0 },
+        { question: "What should you do before clicking a link in an email?", options: ["Forward it to friends", "Reply with your password", "Hover over the link to inspect the URL", "Click quickly before it expires"], correct: 2 },
+        { question: "A phishing email may try to create urgency by saying:", options: ["Read this at your convenience", "Your account will be suspended today unless you act now", "Please review this next month", "This is only for your reference"], correct: 1 },
+        { question: "Which attachment should be treated with caution?", options: ["An unexpected invoice attachment from an unknown sender", "A file you requested from your IT team", "An approved policy document on the intranet", "A report from your direct manager you were expecting"], correct: 0 },
+        { question: "If you receive a suspicious email asking for your password, what should you do?", options: ["Provide the password if the logo looks real", "Ignore it and keep it in your inbox forever", "Report it and do not reply or click anything", "Send your password in a separate email"], correct: 2 },
+        { question: "What is impersonation in phishing?", options: ["A printer configuration issue", "When an attacker pretends to be a trusted person or company", "A secure login process", "A staff training method"], correct: 1 },
+        { question: "Which URL looks most suspicious?", options: ["https://portal.company.com/login", "https://company-support.secure-login-alert.net", "https://intranet.company.com", "https://help.company.com/reset"], correct: 1 },
+        { question: "Poor spelling and grammar in an email may indicate:", options: ["A phishing attempt", "A guaranteed scam-free message", "A legitimate tax notice", "A company-wide update"], correct: 0 },
+        { question: "What is the safest action if you are unsure whether an email is genuine?", options: ["Click first and decide later", "Verify it through a trusted channel such as IT or the official website", "Reply asking if it is fake", "Download all attachments to check them"], correct: 1 },
+        { question: "Why are fake login pages dangerous?", options: ["They slow down the browser only", "They automatically fix password issues", "They can steal your username and password", "They improve network speed"], correct: 2 },
+        { question: "What should you do immediately after selecting an answer in this quiz?", options: ["Change the answer repeatedly", "Use the Next button to move forward once feedback appears", "Close the webpage", "Skip all remaining questions"], correct: 1 },
+        { question: "Which of these is the best example of phishing awareness?", options: ["Clicking every email link to test them", "Checking sender details, links, and reporting suspicious emails", "Sharing passwords only with coworkers", "Opening attachments from unknown senders"], correct: 1 },
+        { question: "What color feedback should appear for a correct answer in this quiz?", options: ["Green with a tick sign", "Red with a cross sign", "Purple with a star sign", "Blue with a circle sign"], correct: 0 },
+        { question: "What happens when a wrong answer is selected in this quiz?", options: ["The user can keep guessing until correct", "The correct answer is revealed, and the user cannot then select it", "The question disappears", "The score increases anyway"], correct: 1 },
+        { question: "What is one possible consequence of a successful phishing attack on a company?", options: ["Better antivirus performance", "Improved employee productivity", "Data breach or financial loss", "More storage space"], correct: 2 },
+        { question: "Which message is most likely to be a phishing attempt?", options: ["Your manager sharing a file you asked for", "An unexpected email demanding urgent payment with a suspicious link", "A normal meeting reminder from Outlook", "A scheduled payslip notification from the payroll portal"], correct: 1 },
+        { question: "What score is required to receive the completion certificate?", options: ["15 out of 20", "16 out of 20", "17 out of 20", "20 out of 20 only"], correct: 2 },
+        { question: "Which statement best summarizes good phishing awareness practice?", options: ["Trust all emails with logos", "Act fast before checking details", "Think before you click, verify, and report suspicious emails", "Only worry about phishing on personal devices"], correct: 2 }
+    ];
+
+    const state = {
+        currentQuestion: 0,
+        score: 0,
+        userAnswers: Array(quizData.length).fill(null),
+        answerLocked: Array(quizData.length).fill(false)
+    };
+
+    const startQuizBtn = document.getElementById('startQuizBtn');
+    const quizSectionWrap = document.getElementById('quizSectionWrap');
+    const questionCounter = document.getElementById('questionCounter');
+    const scoreCounter = document.getElementById('scoreCounter');
+    const scoreBadge = document.getElementById('scoreBadge');
+    const progressBar = document.getElementById('progressBar');
+    const questionNumber = document.getElementById('questionNumber');
+    const questionText = document.getElementById('questionText');
+    const answersContainer = document.getElementById('answersContainer');
+    const feedbackBox = document.getElementById('feedbackBox');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const quizSection = document.getElementById('quizSection');
+    const resultSection = document.getElementById('resultSection');
+    const finalScoreText = document.getElementById('finalScoreText');
+    const resultMessage = document.getElementById('resultMessage');
+    const certificateBox = document.getElementById('certificateBox');
+    const certificateScore = document.getElementById('certificateScore');
+    const restartBtn = document.getElementById('restartBtn');
+
+    startQuizBtn.addEventListener('click', () => {
+        quizSectionWrap.classList.remove('d-none');
+        quizSectionWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    function renderQuestion() {
+        const q = quizData[state.currentQuestion];
+        questionCounter.textContent = `Question ${state.currentQuestion + 1} of ${quizData.length}`;
+        scoreCounter.textContent = `Score: ${state.score}`;
+        scoreBadge.textContent = `Score: ${state.score}/${quizData.length}`;
+        progressBar.style.width = `${(state.currentQuestion / quizData.length) * 100}%`;
+        questionNumber.textContent = `Question ${state.currentQuestion + 1}`;
+        questionText.textContent = q.question;
+        answersContainer.innerHTML = '';
+
+        const locked = state.answerLocked[state.currentQuestion];
+        const selected = state.userAnswers[state.currentQuestion];
+
+        q.options.forEach((option, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'quiz-option';
+            btn.innerHTML = `<span>${option}</span>`;
+            btn.disabled = locked;
+
+            if (locked) {
+                if (index === q.correct && selected === q.correct) {
+                    btn.classList.add('correct');
+                    btn.innerHTML += `<span class="position-absolute end-0 top-50 translate-middle-y me-3 badge rounded-pill bg-success"><i class="fas fa-check"></i></span>`;
+                } else if (index === selected && selected !== q.correct) {
+                    btn.classList.add('incorrect');
+                    btn.innerHTML += `<span class="position-absolute end-0 top-50 translate-middle-y me-3 badge rounded-pill bg-danger"><i class="fas fa-times"></i></span>`;
+                } else if (index === q.correct && selected !== q.correct) {
+                    btn.classList.add('revealed-correct');
+                    btn.innerHTML += `<span class="position-absolute end-0 top-50 translate-middle-y me-3 badge rounded-pill bg-success"><i class="fas fa-check"></i></span>`;
+                }
+            }
+
+            btn.addEventListener('click', () => handleAnswer(index));
+            answersContainer.appendChild(btn);
+        });
+
+        if (locked) {
+            if (selected === q.correct) {
+                feedbackBox.className = 'alert alert-success mt-3';
+                feedbackBox.innerHTML = '<i class="fas fa-check-circle me-2"></i>Correct. Well done.';
+            } else {
+                feedbackBox.className = 'alert alert-danger mt-3';
+                feedbackBox.innerHTML = `<i class="fas fa-times-circle me-2"></i>Incorrect. The correct answer is: <strong>${q.options[q.correct]}</strong>`;
+            }
+        } else {
+            feedbackBox.className = 'alert mt-3 d-none';
+            feedbackBox.innerHTML = '';
+        }
+
+        nextBtn.disabled = !locked;
+        prevBtn.disabled = state.currentQuestion === 0;
+        nextBtn.innerHTML = state.currentQuestion === quizData.length - 1 ? 'Finish Quiz <i class="fas fa-flag-checkered ms-2"></i>' : 'Next <i class="fas fa-arrow-right ms-2"></i>';
+    }
+
+    function handleAnswer(selectedIndex) {
+        if (state.answerLocked[state.currentQuestion]) return;
+
+        const q = quizData[state.currentQuestion];
+        state.userAnswers[state.currentQuestion] = selectedIndex;
+        state.answerLocked[state.currentQuestion] = true;
+
+        if (selectedIndex === q.correct) {
+            state.score += 1;
+        }
+
+        renderQuestion();
+        scoreCounter.textContent = `Score: ${state.score}`;
+        scoreBadge.textContent = `Score: ${state.score}/${quizData.length}`;
+    }
+    
+    function showResults() {
+    quizSection.classList.add('d-none');
+    resultSection.classList.remove('d-none');
+    progressBar.style.width = '100%';
+    finalScoreText.textContent = `Your score: ${state.score} out of ${quizData.length}`;
+
+   if (state.score >= 17) {
+    resultMessage.innerHTML = '<span class="text-success"><i class="fas fa-trophy me-2"></i>Congratulations. You have passed the quiz and earned the completion certificate.</span>';
+    certificateBox.classList.remove('d-none');
+    certificateScore.textContent = `${state.score} / ${quizData.length}`;
+
+    // Show completion popup
+    const overlay = document.createElement('div');
+    overlay.style.cssText = `
+        position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+        display: flex; align-items: center; justify-content: center;
+        z-index: 9999; animation: fadeIn 0.3s ease;
+    `;
+    overlay.innerHTML = `
+        <style>
+            @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+            @keyframes popIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+            @keyframes shrink { from { width: 100%; } to { width: 0%; } }
+        </style>
+        <div style="
+            background: #fff; border-radius: 16px; padding: 40px 48px;
+            text-align: center; max-width: 420px; width: 90%;
+            animation: popIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+        ">
+            <div style="font-size: 56px; margin-bottom: 12px;">🎓</div>
+            <h3 style="margin: 0 0 8px; color: #166534; font-size: 1.4rem;">Training Complete!</h3>
+            <p style="margin: 0 0 6px; color: #374151; font-size: 1rem;">
+                You scored <strong>${state.score} / ${quizData.length}</strong>
+            </p>
+            <p style="margin: 0 0 24px; color: #6b7280; font-size: 0.9rem;">
+                Redirecting you to the dashboard…
+            </p>
+            <div style="height: 5px; background: #e5e7eb; border-radius: 99px; overflow: hidden;">
+                <div style="
+                    height: 100%; background: #16a34a; border-radius: 99px;
+                    animation: shrink 3s linear forwards;
+                "></div>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+
+    // Submit after 3 seconds
+    setTimeout(() => {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/simulation/training/complete';
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'score';
+        input.value = state.score;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }, 3000);
+    } else {
+        resultMessage.innerHTML = '<span class="text-danger"><i class="fas fa-exclamation-circle me-2"></i>You did not reach the required passing score of 17. Please review the material and try again.</span>';
+        certificateBox.classList.add('d-none');
+    }
+    resultSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+    nextBtn.addEventListener('click', () => {
+        if (!state.answerLocked[state.currentQuestion]) return;
+        if (state.currentQuestion === quizData.length - 1) {
+            showResults();
+        } else {
+            state.currentQuestion += 1;
+            renderQuestion();
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (state.currentQuestion > 0) {
+            state.currentQuestion -= 1;
+            renderQuestion();
+        }
+    });
+
+    restartBtn.addEventListener('click', () => {
+        state.currentQuestion = 0;
+        state.score = 0;
+        state.userAnswers = Array(quizData.length).fill(null);
+        state.answerLocked = Array(quizData.length).fill(false);
+        quizSection.classList.remove('d-none');
+        resultSection.classList.add('d-none');
+        renderQuestion();
+        quizSectionWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    // Initialize first question (hidden until Start is clicked, but ready)
+    renderQuestion();
+</script>
+{% endblock %}

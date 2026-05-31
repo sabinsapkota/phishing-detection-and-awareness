@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block title %}Training - PhishGuard{% endblock %}
+
+{% block content %}
+<div class="text-center mb-5">
+    <h2><i class="fas fa-graduation-cap me-2"></i>Phishing Awareness Training</h2>
+    <p class="lead text-muted">Learn to identify and avoid phishing attacks</p>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0"><i class="fas fa-fish me-2"></i>What is Phishing?</h5>
+            </div>
+            <div class="card-body">
+                <p>Phishing is a cyber attack that uses disguised email as a weapon. The goal is to trick the email recipient into believing that the message is something they want or need.</p>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-check text-success me-2"></i>Fake login pages</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Malicious attachments</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Urgent requests</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Common Signs</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <i class="fas fa-envelope text-danger me-2"></i>
+                        <strong>Suspicious sender</strong>
+                        <small class="d-block text-muted">Check email addresses carefully</small>
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fas fa-link text-danger me-2"></i>
+                        <strong>Odd links</strong>
+                        <small class="d-block text-muted">Hover to preview URLs</small>
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fas fa-grammar text-danger me-2"></i>
+                        <strong>Poor spelling</strong>
+                        <small class="d-block text-muted">Grammar mistakes</small>
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fas fa-clock text-danger me-2"></i>
+                        <strong>Urgency</strong>
+                        <small class="d-block text-muted">"Act now!" pressure</small>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="fas fa-shield-alt me-2"></i>Best Practices</h5>
+            </div>
+            <div class="card-body">
+                <ol class="list-group list-group-numbered list-group-flush">
+                    <li class="list-group-item">Verify sender identity</li>
+                    <li class="list-group-item">Don't click suspicious links</li>
+                    <li class="list-group-item">Check for HTTPS on websites</li>
+                    <li class="list-group-item">Use multi-factor authentication</li>
+                    <li class="list-group-item">Report suspicious emails</li>
+                    <li class="list-group-item">Keep software updated</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0"><i class="fas fa-tv me-2"></i>Interactive Examples</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <h6 class="text-danger"><i class="fas fa-times-circle me-2"></i>Suspicious Email Example:</h6>
+                <div class="email-preview bg-light p-3 rounded">
+                    <p class="mb-1"><strong>From:</strong> security@amaz0n-security.com</p>
+                    <p class="mb-1"><strong>Subject:</strong> Urgent: Account Suspension Warning!</p>
+                    <hr>
+                    <p>Dear Customer,</p>
+                    <p>Your account has been compromised! Click here immediately to verify your information or your account will be PERMANENTLY DELETED!!!</p>
+                    <p><a href="#" class="btn btn-sm btn-danger">Verify Now</a></p>
+                </div>
+                <div class="alert alert-danger mt-2">
+                    <small><i class="fas fa-times me-1"></i> Misspelled domain (amaz0n), urgency, threats</small>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h6 class="text-success"><i class="fas fa-check-circle me-2"></i>Legitimate Email Example:</h6>
+                <div class="email-preview bg-light p-3 rounded">
+                    <p class="mb-1"><strong>From:</strong> noreply@amazon.com</p>
+                    <p class="mb-1"><strong>Subject:</strong> Your Amazon order #123-4567890</p>
+                    <hr>
+                    <p>Hello John,</p>
+                    <p>Thank you for your order. Your package will arrive on Tuesday. Track your shipment here.</p>
+                    <p><a href="#" class="btn btn-sm btn-primary">Track Order</a></p>
+                </div>
+                <div class="alert alert-success mt-2">
+                    <small><i class="fas fa-check me-1"></i> Correct domain, specific details, no urgency</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header bg-info text-white">
+        <h5 class="mb-0"><i class="fas fa-question-circle me-2"></i>Test Your Knowledge</h5>
+    </div>
+    <div class="card-body">
+        <div class="accordion" id="quizAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q1">
+                        Q1: You receive an email from "paypal-security.com" asking to verify your account. What do you do?
+                    </button>
+                </h2>
+                <div id="q1" class="accordion-collapse collapse" data-bs-parent="#quizAccordion">
+                    <div class="accordion-body">
+                        <strong>Answer:</strong> Do not click! The real PayPal domain is paypal.com. "paypal-security.com" is a fake domain designed to trick you. Always type the URL directly in your browser.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q2">
+                        Q2: An email says "URGENT: Your package delivery failed" with a link to reschedule. Safe to click?
+                    </button>
+                </h2>
+                <div id="q2" class="accordion-collapse collapse" data-bs-parent="#quizAccordion">
+                    <div class="accordion-body">
+                        <strong>Answer:</strong> Be cautious! Check the sender address first. Legitimate shipping companies use their official domains. When in doubt, go directly to the carrier's website and enter your tracking number.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q3">
+                        Q3: What should you do if you accidentally clicked a phishing link?
+                    </button>
+                </h2>
+                <div id="q3" class="accordion-collapse collapse" data-bs-parent="#quizAccordion">
+                    <div class="accordion-body">
+                        <strong>Answer:</strong> 
+                        <ol>
+                            <li>Don't enter any information</li>
+                            <li>Close the browser tab immediately</li>
+                            <li>Run a virus scan</li>
+                            <li>Change passwords from a different device</li>
+                            <li>Report the incident to IT security</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

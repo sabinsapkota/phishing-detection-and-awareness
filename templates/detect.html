@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block title %}Phishing Detection - PhishGuard{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="fas fa-search me-2"></i>Email Phishing Detection</h4>
+            </div>
+            <div class="card-body p-4">
+                <p class="text-muted mb-4">
+                    Paste the complete email including all headers (From, Subject, Date, etc.) for comprehensive analysis.
+                    Supports both "Show Original" format and standard email text.
+                </p>
+
+                <!-- Tabs for input method -->
+                <ul class="nav nav-tabs mb-3" id="inputTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="full-tab" data-bs-toggle="tab" data-bs-target="#full" type="button">
+                            <i class="fas fa-envelope-open-text me-2"></i>Full Email (Show Original)
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="simple-tab" data-bs-toggle="tab" data-bs-target="#simple" type="button">
+                            <i class="fas fa-envelope me-2"></i>Simple (Subject + Body)
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="inputTabsContent">
+                    <!-- Full Email Tab -->
+                    <div class="tab-pane fade show active" id="full" role="tabpanel">
+                        <form method="POST" action="{{ url_for('detect') }}">
+                            <input type="hidden" name="input_type" value="full">
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    <i class="fas fa-code me-2"></i>Paste Complete Email (with Headers)
+                                </label>
+                                <textarea class="form-control font-monospace" name="full_email" rows="15" 
+                                    placeholder="From: sender@example.com
+To: recipient@example.com
+Subject: Email Subject Here
+Date: Mon, 01 Jan 2024 10:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain
+
+Email body content starts here...
+Any links like http://example.com will be analyzed.
+
+Paste the ENTIRE email including all headers above the body."></textarea>
+                                <div class="form-text">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    In Gmail: Open email → Click 3 dots → "Show Original" → Copy all text
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                                <button type="submit" class="btn btn-primary btn-lg px-5">
+                                    <i class="fas fa-microscope me-2"></i>Analyze Full Email
+                                </button>
+                                <button type="reset" class="btn btn-outline-secondary btn-lg">
+                                    <i class="fas fa-eraser me-2"></i>Clear
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Simple Input Tab -->
+                    <div class="tab-pane fade" id="simple" role="tabpanel">
+                        <form method="POST" action="{{ url_for('detect') }}">
+                            <input type="hidden" name="input_type" value="simple">
+                            <div class="mb-3">
+                                <label class="form-label">Sender Email</label>
+                                <input type="email" class="form-control" name="sender" placeholder="sender@example.com">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Subject</label>
+                                <input type="text" class="form-control" name="subject" placeholder="Email subject line">
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label">Email Content</label>
+                                <textarea class="form-control" name="content" rows="8" placeholder="Email body content..."></textarea>
+                            </div>
+
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                                <button type="submit" class="btn btn-primary btn-lg px-5">
+                                    <i class="fas fa-microscope me-2"></i>Analyze
+                                </button>
+                                <button type="reset" class="btn btn-outline-secondary btn-lg">
+                                    <i class="fas fa-eraser me-2"></i>Clear
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions Card -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-question-circle me-2"></i>How to Get "Show Original" Email</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h6><i class="fab fa-google text-danger me-2"></i>Gmail</h6>
+                        <ol class="small">
+                            <li>Open the suspicious email</li>
+                            <li>Click the 3 dots (More)</li>
+                            <li>Select "Show Original"</li>
+                            <li>Copy all the text</li>
+                            <li>Paste in the box above</li>
+                        </ol>
+                    </div>
+                    <div class="col-md-4">
+                        <h6><i class="fab fa-microsoft text-primary me-2"></i>Outlook</h6>
+                        <ol class="small">
+                            <li>Open the email</li>
+                            <li>Click "..." (More actions)</li>
+                            <li>Select "View message source"</li>
+                            <li>Copy all the text</li>
+                            <li>Paste in the box above</li>
+                        </ol>
+                    </div>
+                    <div class="col-md-4">
+                        <h6><i class="fas fa-envelope text-info me-2"></i>Apple Mail</h6>
+                        <ol class="small">
+                            <li>Open the email</li>
+                            <li>Right-click on message</li>
+                            <li>Select "Show Raw Source"</li>
+                            <li>Copy all the text</li>
+                            <li>Paste in the box above</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Card -->
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5><i class="fas fa-shield-alt text-primary me-2"></i>Detection Features</h5>
+                <div class="row mt-3">
+                    <div class="col-md-3">
+                        <ul class="list-unstyled small">
+                            <li><i class="fas fa-check text-success me-2"></i>Header Analysis</li>
+                            <li><i class="fas fa-check text-success me-2"></i>SPF/DKIM Check</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Reply-To Mismatch</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <ul class="list-unstyled small">
+                            <li><i class="fas fa-check text-success me-2"></i>URL Analysis</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Domain Verification</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Typosquatting</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <ul class="list-unstyled small">
+                            <li><i class="fas fa-check text-success me-2"></i>Content Analysis</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Urgency Detection</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Sentiment Analysis</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <ul class="list-unstyled small">
+                            <li><i class="fas fa-check text-success me-2"></i>Attachment Scan</li>
+                            <li><i class="fas fa-check text-success me-2"></i>HTML Analysis</li>
+                            <li><i class="fas fa-check text-success me-2"></i>ML Classification</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

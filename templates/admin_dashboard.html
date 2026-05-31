@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - PhishGuard{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-tachometer-alt me-2"></i>Admin Dashboard</h2>
+    <span class="badge bg-primary fs-6">Administrator</span>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon text-primary">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-number">{{ stats.total_users }}</div>
+            <div class="text-muted">Total Users</div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon text-success">
+                <i class="fas fa-envelope-open-text"></i>
+            </div>
+            <div class="stat-number">{{ stats.total_emails_scanned }}</div>
+            <div class="text-muted">Emails Scanned</div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon text-danger">
+                <i class="fas fa-bug"></i>
+            </div>
+            <div class="stat-number">{{ stats.phishing_detected }}</div>
+            <div class="text-muted">Phishing Detected</div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon text-warning">
+                <i class="fas fa-bullhorn"></i>
+            </div>
+            <div class="stat-number">{{ stats.active_campaigns }}</div>
+            <div class="text-muted">Active Campaigns</div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon text-info">
+                <i class="fas fa-vial"></i>
+            </div>
+            <div class="stat-number">{{ stats.total_simulations }}</div>
+            <div class="text-muted">Simulations Sent</div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon text-success">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="stat-number">{{ stats.users_trained }}</div>
+            <div class="text-muted">Users Trained</div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-bullhorn me-2"></i>Campaign Management</h5>
+            </div>
+            <div class="card-body">
+                <p>Create and manage phishing simulation campaigns to test and train users.</p>
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('create_campaign') }}" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>Create New Campaign
+                    </a>
+                    <a href="{{ url_for('campaigns') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-list me-2"></i>View All Campaigns
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Analytics & Reports</h5>
+            </div>
+            <div class="card-body">
+                <p>View detailed statistics on detection rates and user awareness metrics.</p>
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('analytics') }}" class="btn btn-success">
+                        <i class="fas fa-chart-pie me-2"></i>View Analytics
+                    </a>
+                    <a href="{{ url_for('detect') }}" class="btn btn-outline-success">
+                        <i class="fas fa-search me-2"></i>Test Detection
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="fas fa-shield-alt me-2"></i>System Status</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3 text-center">
+                <i class="fas fa-check-circle text-success fa-2x mb-2"></i>
+                <p class="mb-0">Detection Engine</p>
+                <small class="text-success">Operational</small>
+            </div>
+            <div class="col-md-3 text-center">
+                <i class="fas fa-check-circle text-success fa-2x mb-2"></i>
+                <p class="mb-0">Database</p>
+                <small class="text-success">Connected</small>
+            </div>
+            <div class="col-md-3 text-center">
+                <i class="fas fa-check-circle text-success fa-2x mb-2"></i>
+                <p class="mb-0">Simulation Service</p>
+                <small class="text-success">Active</small>
+            </div>
+            <div class="col-md-3 text-center">
+                <i class="fas fa-check-circle text-success fa-2x mb-2"></i>
+                <p class="mb-0">ML Model</p>
+                <small class="text-success">Loaded</small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
