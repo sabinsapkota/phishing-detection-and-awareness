@@ -2,7 +2,7 @@
 
 ## ICT942 Cybersecurity Project
 **Master of Information Technology (MIT)**  
-Semester S2 2025
+Semester S1 2026
 
 ---
 
@@ -128,9 +128,7 @@ phishing_detection_tool/
 │   ├── simulation_email.html
 │   ├── simulation_landing.html
 │   └── training.html
-└── static/              # Static assets (CSS, JS)
-    ├── css/
-    └── js/
+
 ```
 
 ---
